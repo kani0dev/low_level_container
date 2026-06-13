@@ -1,7 +1,7 @@
 # low_level_container
 
-Estudo sobre containers low-level usando Linux namespaces (`unshare`),
-`chroot` e bind mounts — antes de chegar no Docker.
+Estudo sobre containers usando Linux namespaces (`unshare`),
+`chroot` e bind mounts, uma verso mais ''primitiva'' dos containers modernos.
 
 ## Arquitetura
 
