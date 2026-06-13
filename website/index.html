@@ -4,70 +4,382 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Low Level Container</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #0d0d0d;
-      color: #e0e0e0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    main {
-      max-width: 640px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      margin-bottom: 1.5rem;
-      color: #ffffff;
-    }
-
-    p {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: #a0a0a0;
-    }
-
-    p span {
-      color: #e0e0e0;
-      font-weight: 500;
-    }
-
-    footer {
-      margin-top: 4rem;
-      font-size: 0.8rem;
-      color: #555;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
-    <h1>LOW LEVEL CONTAINER</h1>
-    <p>
-      Um container nada mais é que um <span>processo isolado</span> rodando no
-      seu próprio sistema de arquivos, com seus próprios recursos de rede e
-      namespace. Diferente de máquinas virtuais, containers compartilham o
-      kernel do hospedeiro — o que os torna leves, rápidos e ideais para
-      empacotar e distribuir aplicações de forma consistente entre ambientes.
-    </p>
+  <h1>Containers: O que são, como surgiram e por que existem</h1>
+  <h2>Como chegamos aos containers modernos</h2>
+  <p>
+    Se você seguiu o projeto até aqui e conseguiu executar esta página web dentro do container, parabéns. Você acabou de passar pelos principais componentes primitivos que compõem tecnologias modernas como Docker, Containerd e Kubernetes. Agora é hora de entender o que realmente é um container e por que ele existe.
+  </p>
+
+  <p>
+    Muitas pessoas enxergam Docker como uma tecnologia mágica, mas na realidade ele é uma coleção de mecanismos do Linux trabalhando juntos para fornecer isolamento, controle de recursos e facilidade de uso. O Docker não inventou containers; ele apenas tornou seu uso simples e acessível.
+  </p>
+  
+  <hr>
+  <h1>O que é um Container?</h1>
+  <p> 
+A palavra &quot;container&quot; aparece em diversos contextos, mas sempre representa a mesma ideia: <strong>isolamento</strong>.</p>
+  <p> 
+Um container é um compartimento que separa o que está dentro do que está fora. Assim como um guarda-roupa organiza roupas em compartimentos diferentes, um container organiza aplicações e recursos em ambientes isolados.</p>
+  <p> 
+No contexto de software, um container é um ambiente isolado onde uma aplicação pode executar sem interferir diretamente no restante do sistema operacional.</p>
+  <p> 
+Esse isolamento permite que a aplicação tenha:</p>
+  <ul> 
+
+  <li> 
+Seu próprio sistema de arquivos;</li>
+  <li> 
+Sua própria visão dos processos;</li>
+  <li> 
+Seus próprios usuários;</li>
+  <li> 
+Sua própria configuração de rede;</li>
+  <li> 
+Limites próprios de CPU, memória e outros recursos.</li>
+  </ul> 
+
+  <p> 
+Para a aplicação que está dentro do container, parece que existe um sistema operacional inteiro dedicado a ela. Porém, isso é apenas uma ilusão criada pelo kernel Linux.</p>
+  <hr> 
+
+  <h1> 
+Container não é Máquina Virtual</h1>
+  <p> 
+Uma comparação comum é entre containers e máquinas virtuais.</p>
+  <p> 
+Uma máquina virtual possui:</p>
+  <ul> 
+
+  <li> 
+Seu próprio kernel;</li>
+  <li> 
+Seu próprio sistema operacional;</li>
+  <li> 
+Hardware virtualizado.</li>
+  </ul> 
+
+  <p> 
+Já um container:</p>
+  <ul> 
+
+  <li> 
+Compartilha o kernel do host;</li>
+  <li> 
+Não possui sistema operacional próprio;</li>
+  <li> 
+Utiliza diretamente os recursos do host.</li>
+  </ul> 
+
+  <p> 
+Por isso containers são muito mais leves, iniciam mais rapidamente e consomem menos recursos.</p>
+  <p> 
+Uma forma simples de pensar nisso é:</p>
+  <blockquote> 
+
+  <p> 
+Uma máquina virtual cria um computador novo.</p>
+  <p> 
+Um container cria a ilusão de um computador novo.</p>
+  </blockquote> 
+
+  <hr> 
+
+  <h1> 
+Como surgiu a necessidade de isolamento?</h1>
+  <p> 
+Para entender containers precisamos voltar para o Unix.</p>
+  <p> 
+Uma das filosofias mais importantes do Unix é:</p>
+  <blockquote> 
+
+  <p> 
+&quot;Everything is a file&quot; (Tudo é um arquivo)</p>
+  </blockquote> 
+
+  <p> 
+No Unix e posteriormente no Linux, praticamente tudo pode ser representado como arquivos:</p>
+  <ul> 
+
+  <li> 
+Configurações;</li>
+  <li> 
+Dispositivos;</li>
+  <li> 
+Processos;</li>
+  <li> 
+Informações do kernel;</li>
+  <li> 
+Usuários;</li>
+  <li> 
+Redes.</li>
+  </ul> 
+
+  <p> 
+Essa organização tornou possível criar mecanismos de isolamento utilizando apenas estruturas já existentes no sistema.</p>
+  <p> 
+Na época, os computadores possuíam recursos extremamente limitados. Virtualizar máquinas inteiras era inviável, pois hardware era caro e pouco poderoso.</p>
+  <p> 
+Era necessário encontrar uma forma mais eficiente de executar aplicações isoladas sem precisar criar sistemas completos para cada uma delas.</p>
+  <p> 
+Foi nesse cenário que surgiu o CHRoot.</p>
+  <hr> 
+
+  <h1> 
+CHRoot: o primeiro passo</h1>
+  <p> 
+CHRoot significa <strong>Change Root</strong>.</p>
+  <p> 
+Ele foi uma das primeiras ferramentas criadas para fornecer isolamento em sistemas Unix.</p>
+  <p> 
+O funcionamento é relativamente simples:</p>
+  <ol> 
+
+  <li> 
+Cria-se um diretório contendo tudo o que a aplicação precisa.</li>
+  <li> 
+O processo tem seu diretório raiz (<code>/</code>) alterado para esse novo local.</li>
+  <li> 
+A aplicação passa a enxergar apenas aquele diretório.</li>
+  </ol> 
+
+  <p> 
+Por exemplo:</p>
+  <pre> 
+<code class="language-bash">/
+  ├── bin
+  ├── etc
+  ├── home
+  └── var
+  </code> 
+</pre>
+  <p> 
+Após um CHRoot:</p>
+  <pre> 
+<code class="language-bash">/container
+  ├── bin
+  ├── etc
+  ├── lib
+  └── var
+  </code> 
+</pre>
+  <p> 
+Para o processo executando dentro do CHRoot, o diretório <code>/container</code> passa a ser visto como simplesmente <code>/</code>.</p>
+  <p> 
+A aplicação não consegue navegar para fora desse ambiente.</p>
+  <hr> 
+
+  <h1> 
+CHRoot é um container?</h1>
+  <p> 
+A resposta depende da perspectiva.</p>
+  <p> 
+Filosoficamente, sim.</p>
+  <p> 
+Ele cria um ambiente isolado para uma aplicação.</p>
+  <p> 
+Tecnicamente, não.</p>
+  <p> 
+O CHRoot isola apenas o sistema de arquivos.</p>
+  <p> 
+Todo o restante continua sendo compartilhado com o host.</p>
+  <p> 
+O processo ainda utiliza:</p>
+  <ul> 
+
+  <li> 
+A mesma rede do host;</li>
+  <li> 
+Os mesmos usuários do host;</li>
+  <li> 
+Os mesmos processos do host;</li>
+  <li> 
+Os mesmos recursos do host;</li>
+  <li> 
+O mesmo kernel do host.</li>
+  </ul> 
+
+  <p> 
+Por isso o CHRoot é frequentemente considerado o ancestral dos containers modernos.</p>
+  <p> 
+Ele resolveu apenas uma parte do problema: o isolamento do sistema de arquivos.</p>
+  <hr> 
+
+  <h1> 
+O que faltava para surgir um container de verdade?</h1>
+  <p> 
+Para transformar o conceito do CHRoot em algo parecido com os containers atuais, era necessário isolar mais componentes do sistema.</p>
+  <p> 
+O Linux passou então a oferecer mecanismos chamados <strong>Namespaces</strong>.</p>
+  <p> 
+Cada namespace cria uma visão isolada de algum recurso do sistema.</p>
+  <p> 
+Os principais são:</p>
+  <h3> 
+Mount Namespace</h3>
+  <p> 
+Isola o sistema de arquivos.</p>
+  <p> 
+É a evolução natural da ideia iniciada pelo CHRoot.</p>
+  <h3> 
+PID Namespace</h3>
+  <p> 
+Isola processos.</p>
+  <p> 
+Dentro do container o processo principal normalmente recebe PID 1, mesmo que no host ele possua outro PID completamente diferente.</p>
+  <p> 
+Por isso, ao executar:</p>
+  <pre> 
+<code class="language-bash">ps aux
+  </code> 
+</pre>
+  <p> 
+dentro do container, você verá uma quantidade muito menor de processos do que no host.</p>
+  <h3> 
+Network Namespace</h3>
+  <p> 
+Isola a rede.</p>
+  <p> 
+O container pode possuir:</p>
+  <ul> 
+
+  <li> 
+Interfaces próprias;</li>
+  <li> 
+IP próprio;</li>
+  <li> 
+Tabela de roteamento própria;</li>
+  <li> 
+Regras de firewall próprias.</li>
+  </ul> 
+
+  <h3> 
+User Namespace</h3>
+  <p> 
+Isola usuários e grupos.</p>
+  <p> 
+Um usuário root dentro do container não precisa ser root no host.</p>
+  <h3> 
+IPC Namespace</h3>
+  <p> 
+Isola mecanismos de comunicação entre processos.</p>
+  <h3> 
+UTS Namespace</h3>
+  <p> 
+Permite que o container tenha seu próprio hostname.</p>
+  <hr> 
+
+  <h1> 
+O problema dos recursos</h1>
+  <p> 
+Mesmo com isolamento completo, ainda existia um problema.</p>
+  <p> 
+Uma aplicação poderia consumir toda a memória ou toda a CPU da máquina.</p>
+  <p> 
+Para resolver isso surgiram os <strong>Control Groups (Cgroups)</strong>.</p>
+  <p> 
+Os Cgroups permitem limitar e monitorar recursos como:</p>
+  <ul> 
+
+  <li> 
+CPU;</li>
+  <li> 
+Memória RAM;</li>
+  <li> 
+Disco;</li>
+  <li> 
+I/O;</li>
+  <li> 
+Número de processos.</li>
+  </ul> 
+
+  <p> 
+Graças aos Cgroups é possível definir, por exemplo:</p>
+  <ul> 
+
+  <li> 
+512 MB de RAM;</li>
+  <li> 
+1 núcleo de CPU;</li>
+  <li> 
+Limite de processos.</li>
+  </ul> 
+
+  <p> 
+Assim uma aplicação não consegue prejudicar o restante do sistema.</p>
+  <hr> 
+
+  <h1> 
+O que realmente forma um container?</h1>
+  <p> 
+Um container moderno é basicamente a combinação de:</p>
+  <h3> 
+CHRoot e Mount Namespaces</h3>
+  <p> 
+Responsáveis pelo isolamento do sistema de arquivos.</p>
+  <h3> 
+Namespaces</h3>
+  <p> 
+Responsáveis pelo isolamento de:</p>
+  <ul> 
+
+  <li> 
+Rede;</li>
+  <li> 
+Processos;</li>
+  <li> 
+Usuários;</li>
+  <li> 
+Hostname;</li>
+  <li> 
+Comunicação entre processos.</li>
+  </ul> 
+
+  <h3> 
+Cgroups</h3>
+  <p> 
+Responsáveis por limitar recursos de hardware.</p>
+  <hr> 
+
+  <h1> 
+Conclusão</h1>
+  <p> 
+Containers não são máquinas virtuais e também não são uma tecnologia completamente nova. Eles são a evolução de décadas de mecanismos de isolamento desenvolvidos para sistemas Unix e Linux.</p>
+  <p> 
+O CHRoot foi o primeiro passo, oferecendo isolamento do sistema de arquivos. Posteriormente surgiram os Namespaces para isolar processos, usuários e redes, e os Cgroups para controlar recursos de hardware.</p>
+  <p> 
+Quando juntamos todos esses componentes, criamos aquilo que hoje chamamos de container.</p>
+  <p> 
+Docker, Containerd e outras ferramentas modernas não reinventam esse conceito. Elas apenas automatizam e simplificam o uso dessas funcionalidades do kernel Linux.</p>
+  <p> 
+Em outras palavras, um container moderno é a união de:</p>
+  <ul> 
+
+  <li> 
+Isolamento de sistema de arquivos;</li>
+  <li> 
+Isolamento de processos;</li>
+  <li> 
+Isolamento de usuários;</li>
+  <li> 
+Isolamento de rede;</li>
+  <li> 
+Controle de recursos.</li>
+  </ul> 
+
+  <p> 
+Tudo isso compartilhando o mesmo kernel do host, de forma extremamente eficiente.</p>
+  <p> 
+É por isso que podemos dizer que um container não é uma máquina virtual em miniatura. Ele é um processo isolado que recebeu a ilusão de possuir seu próprio sistema.</p>
+
+
   </main>
 
   <footer>
-    &copy; 2026 Low Level Container
+    &copy; <a href="https://github.com/kani0dev/low_level_container">2026 Low Level Container</a>
   </footer>
 </body>
 </html>
