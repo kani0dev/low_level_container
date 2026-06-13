@@ -1,6 +1,7 @@
 # RootFS do container
 rootfs/
-
+rootfs
+**/rootfs
 # Arquivos baixados
 *.tar.gz
 *.tar.xz

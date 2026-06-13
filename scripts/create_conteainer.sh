@@ -13,4 +13,4 @@ sudo unshare \
     --cgroup \
     --fork \
     --mount-proc \
-    chroot "$ROOTFS"/bin/sh
+    chroot "$ROOTFS" /bin/sh
