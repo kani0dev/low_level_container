@@ -63,4 +63,11 @@ for Linux).
    cd low_level_container
    make install
    make run
-   ```
+ 
+    #agora dentro do container voce pode explorar o alpine
+    cd website/
+    python3 -m http.server 8000
+```
+
+## visualizar a pagina que esta dentro do container 
+no browser do host acesse http://localhost:8000 o container que esta servindo essa pagina 
