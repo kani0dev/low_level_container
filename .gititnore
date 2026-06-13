@@ -1,0 +1,25 @@
+# RootFS do container
+rootfs/
+
+# Arquivos baixados
+*.tar.gz
+*.tar.xz
+*.tar
+
+# Logs
+*.log
+
+# Arquivos temporários
+tmp/
+temp/
+
+# Cache
+.cache/
+
+# Arquivos de editor
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
